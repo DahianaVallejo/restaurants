@@ -6,6 +6,7 @@ import Toast from 'react-native-easy-toast'
 
 import { closeSession, getCurrentUser } from '../../navigations/utils/actions'
 import InfoUser from '../../components/account/InfoUser'
+import AccountOptions from '../../components/account/AccountOptions'
 
 export default function UserLogged() {
     const toastRef = useRef()
@@ -14,17 +15,31 @@ export default function UserLogged() {
     const [loading, setLoading] = useState(false)
     const [loadingText, setLoadingText] = useState("")
     const [user, setUser] = useState(null)
+    const [reloadUser, setReloadUser] = useState(false)
 
     useEffect(() => {
         setUser(getCurrentUser())
-    }, [])
+        setReloadUser(false)
+    }, [reloadUser])
 
     return (
         <View style={styles.container}>
             {
-               user && <InfoUser user={user}/> 
+               user && (
+                   <View>
+                        <InfoUser 
+                            user={user} 
+                            setLoading={setLoading} 
+                            setLoadingText={setLoadingText}
+                        /> 
+                        <AccountOptions
+                            user={user}
+                            toastRef={toastRef}
+                            setReloadUser={setReloadUser}
+                        />
+                   </View>
+               )
             }
-            <Text>Account Options</Text>
             <Button
                 title="Cerrar sesión"
                 buttonStyle={styles.btnCloseSession}
