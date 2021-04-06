@@ -16,15 +16,12 @@ export default function ChangePasswordForm({ setShowModal, toastRef}) {
     const [loading, setLoading] = useState(false)
 
     const onSubmit = async() => {
-        console.log("Hola")
         if(!validateForm()){
-            console.log("malo")
             return
         }
         
         setLoading(true)
         const resultReauthenticate = await reauthenticate(currentPassword)
-        console.log(resultReauthenticate)
         if (!resultReauthenticate.statusResponse) {
             setLoading(false)
             setErrorCurrentPassword("Contraseña incorrecta")
